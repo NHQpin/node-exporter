@@ -1,0 +1,88 @@
+version: "3.8"
+
+services:
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: always
+    volumes:
+      - '/:/host:ro,rslave'
+
+  # promtail:
+  #   image: grafana/promtail:latest
+  #   container_name: promtail
+  #   network_mode: host
+  #   restart: always
+  #   volumes:
+  #     - ./promtail-config/config.yaml:/etc/promtail/config.yaml
+  #     - type: bind
+  #       source: /data/node.log
+  #       target: /data/node.log
+  #       read_only: true
+  #     - type: bind
+  #       source: /data/node.archive.log
+  #       target: /data/node.archive.log
+  #       read_only: true
+  #     - type: bind
+  #       source: /data/algod-err.log
+  #       target: /data/algod-err.log
+  #       read_only: true
+  #     - type: bind
+  #       source: /data/algod-out.log
+  #       target: /data/algod-out.log
+  #       read_only: true
+  #     - type: bind
+  #       source: /data/data-kmd-v0.5/kmd.log
+  #       target: /data/data-kmd-v0.5/kmd.log
+  #       read_only: true
+  #     - type: bind
+  #       source: /data/data-kmd-v0.5/kmd-out.log
+  #       target: /data/data-kmd-v0.5/kmd-out.log
+  #       read_only: true
+  #     - type: bind
+  #       source: /data/data-kmd-v0.5/kmd-err.log
+  #       target: /data/data-kmd-v0.5/kmd-err.log
+  #       read_only: true
+  #   command: -config.file=/etc/promtail/config.yaml
+
+#  blackbox_exporter:
+#    image: quay.io/prometheus/blackbox-exporter:latest
+#    container_name: blackbox_exporter
+#    restart: always
+#    ports:
+#      - "9115:9115"
+#    network_mode: host
+#    volumes:
+#      - ./blackbox-config:/config
+#    command:
+#      - --config.file=/config/blackbox.yml
+
+#  cadvisor:
+#    image: gcr.io/cadvisor/cadvisor:latest
+#    container_name: cadvisor
+#    ports:
+#      - 8081:8080
+#    networks:
+#      - monitoring
+#    volumes:
+#      - /:/rootfs:ro
+#      - /var/run:/var/run:rw
+#      - /sys:/sys:ro
+#      - /var/lib/docker/:/var/lib/docker:ro
+#    depends_on:
+#      - redis
+#  redis:
+#    image: redis:latest
+#    container_name: redis
+#    ports:
+#      - 6379:6379
+#    networks:
+#      - monitoring
+
+#networks:
+#  monitoring:
+#    driver: bridge
