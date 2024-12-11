@@ -1,0 +1,48 @@
+server:
+  http_listen_port: 0
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+client:
+  url: http://10.100.1.11:3100/loki/api/v1/push
+
+scrape_configs:
+- job_name: fnet@project-messina-ls-node-production
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /data/node*.log
+#  - targets:
+#      - localhost
+#    labels:
+#      job: node-archive-log
+#      __path__: /data/node.archive.log
+  - targets:
+      - localhost
+    labels:
+      job: algod-err
+      __path__: /data/algod-err.log
+  - targets:
+      - localhost
+    labels:
+      job: algod-out
+      __path__: /data/algod-out.log
+  - targets:
+      - localhost
+    labels:
+      job: kmd
+      __path__: /data/data-kmd-v0.5/kmd.log
+  - targets:
+      - localhost
+    labels:
+      job: kmd-out
+      __path__: /data/data-kmd-v0.5/kmd-out.log
+  - targets:
+      - localhost
+    labels:
+      job: kmd-err
+      __path__: /data/data-kmd-v0.5/kmd-err.log
